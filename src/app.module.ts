@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { UrlModule } from './modules/url/url.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Url } from './modules/url/url.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { Url } from './modules/url/url.entity';
       entities: [ Url ],
       synchronize: true
     }),
+    ConfigModule.forRoot(),
     UrlModule
   ],
   controllers: [AppController],

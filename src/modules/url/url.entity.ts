@@ -1,3 +1,4 @@
+import { Type } from "class-transformer";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity()
@@ -12,7 +13,11 @@ export class Url {
     @Column()
     longUrl : string;
 
-    @Column()
+    @Type( () => Date )
+    @Column('text')
     expiry : Date;
+
+    @Column()
+    hit : number;
 
 }
