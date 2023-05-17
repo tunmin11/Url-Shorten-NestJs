@@ -7,12 +7,12 @@ export class Url {
     id : number;
 
     @Column()
-    shortUrl : string;
+    shortUrlCode : string;
     
     @Column()
     longUrl : string;
 
     @Column()
-    expriy : Date;
+    expiry : Date;
 
 }
