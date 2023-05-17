@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsDate } from "class-validator";
+import { IsString, IsNotEmpty, IsDate, IsDateString } from "class-validator";
 
 export class ShortenUrlTdo {
 
@@ -6,7 +6,7 @@ export class ShortenUrlTdo {
     @IsNotEmpty()
     longUrl : string; 
 
-    @IsString()
+    @IsDateString()
     @IsNotEmpty()
     expiry : string;
 

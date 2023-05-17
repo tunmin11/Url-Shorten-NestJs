@@ -1,10 +1,10 @@
 import { Type } from "class-transformer";
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Url {
+export class Url{
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     id : number;
 
     @Column()
@@ -17,7 +17,11 @@ export class Url {
     @Column('text')
     expiry : Date;
 
-    @Column()
+    @Column({ default : 0 })
     hit : number;
+
+    @Column({ default : true })
+    isActive : boolean;
+
 
 }

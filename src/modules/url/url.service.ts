@@ -33,7 +33,8 @@ export class UrlService {
                 shortUrlCode,
                 longUrl,
                 expiry,
-                hit: 0
+                hit: 0,
+                isActive: true
             });
 
             this.repo.save(url);
@@ -48,8 +49,12 @@ export class UrlService {
 
     async hit (url:  Url) {
         let updateUrl = await this.repo.update( url.id, {
-            hit: url.hit + 1 || 0
+            hit: url.hit + 1 || 0,
         })
+    }
+
+    async expier (url : Url) {
+
     }
 
     async redirect( shortUrlCode : string ) {
