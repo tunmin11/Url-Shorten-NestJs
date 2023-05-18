@@ -1,6 +1,7 @@
 import { Controller, Body, Post, Get, Param, Res, Ip } from '@nestjs/common';
 import { UrlService } from './url.service';
 import { ShortenUrlTdo } from './url.dto';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('url')
 export class UrlController {
@@ -21,6 +22,7 @@ export class UrlController {
         return this.service.shortenUrl(url);
     }
 
+    @Public()
     @Get(':code')
     async redirect(
         @Res() res,

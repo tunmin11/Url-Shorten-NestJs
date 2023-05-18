@@ -11,12 +11,16 @@ import { ConnectionOptions } from 'typeorm';
 import { UserModule } from './modules/user/user.module';
 import { User } from './modules/user/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerGuard } from '@nestjs/throttler/dist/throttler.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      useFactory: () => {
 
+      //Database Setup
+      useFactory: () => {
         const connectionOptions: ConnectionOptions = {
           type: 'sqlite',
           database: 'Shorten.sqlite',
@@ -29,6 +33,11 @@ import { AuthModule } from './modules/auth/auth.module';
         return connectionOptions
       }
     }),
+
+    ThrottlerModule.forRoot({
+      ttl: 6,
+      limit: 15,
+    }),
     ConfigModule.forRoot(),
     UrlModule,
     HitModule,
@@ -36,7 +45,13 @@ import { AuthModule } from './modules/auth/auth.module';
     AuthModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
+  ],
 })
 
 export class AppModule {}
