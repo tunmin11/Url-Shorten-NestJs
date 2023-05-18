@@ -13,4 +13,5 @@ export class ShortenUrlTdo {
     @IsNotEmpty()
     expiry : string;
 
+
 }

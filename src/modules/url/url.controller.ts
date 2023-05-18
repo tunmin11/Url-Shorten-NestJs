@@ -1,4 +1,4 @@
-import { Controller, Body, Post, Get, Param, Res } from '@nestjs/common';
+import { Controller, Body, Post, Get, Param, Res, Ip } from '@nestjs/common';
 import { UrlService } from './url.service';
 import { ShortenUrlTdo } from './url.dto';
 
@@ -18,7 +18,6 @@ export class UrlController {
         @Body()
         url: ShortenUrlTdo
     ){
-        
         return this.service.shortenUrl(url);
     }
 
@@ -26,10 +25,11 @@ export class UrlController {
     async redirect(
         @Res() res,
         @Param('code')
-        code : string
+        code : string,
+        @Ip()
+        ip : string
     ){
-
-        const url = await this.service.redirect(code);
+        const url = await this.service.redirect(code, ip);
         return res.redirect(url.longUrl);
     }
 

@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Hit } from "../hit/hit.entity";
 
 @Entity()
 export class Url{
@@ -17,11 +18,17 @@ export class Url{
     @Column('text')
     expiry : Date;
 
-    @Column({ default : 0 })
-    hit : number;
-
     @Column({ default : true })
     isActive : boolean;
+    
+    @OneToMany( () => Hit, (hit) => hit.url)
+    @JoinColumn()
+    hits : Hit[] | null;
 
+    @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+    public created_at: Date;
 
+    @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
+    public updated_at: Date;
+ 
 }

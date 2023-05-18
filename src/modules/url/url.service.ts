@@ -1,20 +1,29 @@
-import { BadRequestException, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Url } from './url.entity';
 import { Repository } from 'typeorm'
 import { ShortenUrlTdo } from './url.dto';
 import { isURL } from 'class-validator';
 import { nanoid } from 'nanoid';
+import { HitService } from '../hit/hit.service';
 
 @Injectable()
 export class UrlService {
     constructor(
         @InjectRepository(Url)
-        private repo: Repository<Url>
+        private repo: Repository<Url>,
+
+        @Inject(HitService)
+        private hitService: HitService
     ) {}
 
     async all() {
-        const urls = await this.repo.find({});
+        const urls = await this.repo.find({
+            relations : {
+                hits: true
+            }
+        });
+
         return urls;
     }
     
@@ -33,8 +42,7 @@ export class UrlService {
                 shortUrlCode,
                 longUrl,
                 expiry,
-                hit: 0,
-                isActive: true
+                isActive : true,
             });
 
             this.repo.save(url);
@@ -47,21 +55,20 @@ export class UrlService {
 
     }
 
-    async hit (url:  Url) {
-        let updateUrl = await this.repo.update( url.id, {
-            hit: url.hit + 1 || 0,
-        })
+    async hit (url:  Url, ip : string ) {
+        const hit = await this.hitService.hit( url , ip );
+
     }
 
     async expier (url : Url) {
 
     }
 
-    async redirect( shortUrlCode : string ) {
+    async redirect( shortUrlCode : string, ip : string ) {
         try {
             const url = await this.repo.findOneBy({ shortUrlCode });
-            if ( url ) { 
-                this.hit(url);
+            if ( url ) {
+                this.hit(url, ip);
                 return url
             };
         } catch (error) {

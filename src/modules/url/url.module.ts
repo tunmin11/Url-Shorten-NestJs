@@ -3,9 +3,10 @@ import { UrlService } from './url.service';
 import { UrlController } from './url.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Url } from './url.entity';
+import { HitModule } from '../hit/hit.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ Url ])],
+  imports: [TypeOrmModule.forFeature([ Url ]), HitModule],
   providers: [UrlService],
   controllers: [UrlController]
 })
