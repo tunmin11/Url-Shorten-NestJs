@@ -8,7 +8,9 @@ import { ConfigModule } from '@nestjs/config';
 import { HitModule } from './modules/hit/hit.module';
 import { Hit } from './modules/hit/hit.entity';
 import { ConnectionOptions } from 'typeorm';
-import { UsersModule } from './modules/users/users.module';
+import { UserModule } from './modules/user/user.module';
+import { User } from './modules/user/user.entity';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -18,7 +20,7 @@ import { UsersModule } from './modules/users/users.module';
         const connectionOptions: ConnectionOptions = {
           type: 'sqlite',
           database: 'Shorten.sqlite',
-          entities: [ Url, Hit ],
+          entities: [ Url, Hit, User ],
           migrations: [__dirname + '/migrations/*{.ts, .js}'],
           migrationsTableName: "migrations_typeorm",
           migrationsRun: true,
@@ -30,7 +32,8 @@ import { UsersModule } from './modules/users/users.module';
     ConfigModule.forRoot(),
     UrlModule,
     HitModule,
-    UsersModule
+    UserModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
