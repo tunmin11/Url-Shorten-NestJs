@@ -78,7 +78,7 @@ export class UrlService {
     }
     
     // Shorten the Given Url
-    async shortenUrl( url : ShortenUrlTdo) {
+    public async shortenUrl( url : ShortenUrlTdo) {
         const { longUrl, expiry }  = url;
 
         // Throw Error on Invalid Url input
@@ -145,7 +145,7 @@ export class UrlService {
         };
     }
 
-    private isBlackListUrl( url: string ): boolean {
+    public isBlackListUrl( url: string ): boolean {
         return this.blacklistRegex.test(url);
     }
 
@@ -159,7 +159,7 @@ export class UrlService {
         }
     }
 
-    private formatExpiryDateTime(isoString: string): string {
+    formatExpiryDateTime(isoString: string): string {
         let formatDate = moment(new Date(isoString)).endOf('day').toISOString();
         return formatDate;
     }

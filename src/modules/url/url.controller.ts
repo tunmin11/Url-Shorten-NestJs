@@ -15,7 +15,7 @@ export class UrlController {
     @ApiOperation({ summary: 'Shorten URL' })
     @ApiResponse({ status: 200, description: 'Shortened URL generated successfully' })
     @ApiResponse({ status: 406, description: 'URL is blacklisted' })
-    @ApiResponse({ status: 404, description: 'Invalid request body' })
+    @ApiResponse({ status: 400, description: 'Invalid request body' })
     @Public()
     @Post('shorten')
     async shorten(
