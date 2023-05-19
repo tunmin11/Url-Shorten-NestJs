@@ -12,9 +12,18 @@ export class UserService {
         private repo: Repository<User>
     ) {}
 
-    async findOne ( username: string ) : Promise<User> {
+    async findOneByUserName ( username: string ) : Promise<User> {
         try {
             let user = await this.repo.findOneBy({ username });
+            return user;
+        } catch (error) {
+            throw NotFoundException;
+        }
+    }
+
+    async findOne ( id: number ) : Promise<User> {
+        try {
+            let user = await this.repo.findOneBy({ id });
             return user;
         } catch (error) {
             throw NotFoundException;

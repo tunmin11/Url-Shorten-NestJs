@@ -9,9 +9,10 @@ export class AuthService {
         private userService: UserService,
         private readonly jwtService: JwtService
     ){}
-
+    
+    // User SignIn service
     async signIn(username: string, pass: string): Promise<any> {
-        const user = await this.userService.findOne(username);
+        const user = await this.userService.findOneByUserName(username);
 
         // If Password is not Matching 
         let isMatch = await this.isMatchPassword( pass, user?.password ); 
@@ -27,6 +28,7 @@ export class AuthService {
         };
     }
 
+    // Check Password and Hash Password is Match 
     async isMatchPassword( password: string, hash: string ) {
         
         const isMatch = await bcrypt.compare(password, hash);

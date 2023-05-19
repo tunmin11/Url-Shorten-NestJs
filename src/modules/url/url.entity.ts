@@ -1,6 +1,7 @@
 import { Type } from "class-transformer";
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Hit } from "../hit/hit.entity";
+import { User } from "../user/user.entity";
 
 @Entity()
 export class Url{
@@ -23,7 +24,7 @@ export class Url{
     
     @OneToMany( () => Hit, (hit) => hit.url)
     @JoinColumn()
-    hits : Hit[] | null;
+    hits : Hit[];
 
     @CreateDateColumn()
     public created_at: Date;

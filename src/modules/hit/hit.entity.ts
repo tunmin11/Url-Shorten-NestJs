@@ -8,9 +8,9 @@ export class Hit {
     @PrimaryGeneratedColumn()
     id : number;
 
-    @OneToOne( () => Url )
+    @ManyToOne(() => Url, url => url.hits)
     @JoinColumn()
-    url : Url;
+    url: Url;
 
     @Column()
     ip : string;
